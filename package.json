@@ -1,6 +1,6 @@
 {
   "name": "gemini-review-bot",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "AI code review GitHub Action powered by the Gemini API.",
   "license": "MIT",
   "type": "module",
@@ -23,6 +23,6 @@
   "devDependencies": {
     "@types/node": "^24.0.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.11"
   }
 }

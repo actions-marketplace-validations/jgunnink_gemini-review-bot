@@ -22,7 +22,9 @@ on:
         default: ""
     secrets:
       GEMINI_API_KEY:
-        required: true
+        required: false
+      AGENT_PLATFORM_API_KEY:
+        required: false
 
 permissions:
   contents: read
@@ -34,12 +36,17 @@ jobs:
       github.event_name == 'pull_request' ||
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
-       startsWith(github.event.comment.body, '/gemini-review'))
+       startsWith(github.event.comment.body, '/gemini-review')) ||
+      (github.event_name == 'pull_request_review_comment' &&
+       github.event.comment.user.type != 'Bot' &&
+       (contains(github.event.comment.body, '/gemini') ||
+        contains(github.event.comment.body, '@gemini')))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: jgunnink/gemini-review-bot@v1
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          agent_platform_api_key: ${{ secrets.AGENT_PLATFORM_API_KEY }}
           model: ${{ inputs.model }}
           instructions: ${{ inputs.instructions }}
